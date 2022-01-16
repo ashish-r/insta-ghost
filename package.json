@@ -1,0 +1,24 @@
+{
+  "name": "insta-ghost",
+  "version": "1.0.0",
+  "description": "A browser extension for Instagram to read messages and see stories without read receipts or seen.",
+  "main": "script.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashish-r/insta-ghost.git"
+  },
+  "keywords": [
+    "instagram",
+    "privacy",
+    "anonymous",
+    "javascript",
+    "browser extension",
+    "chrome extension"
+  ],
+  "author": "Ashish Ranjan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ashish-r/insta-ghost/issues"
+  },
+  "homepage": "https://github.com/ashish-r/insta-ghost#readme"
+}
