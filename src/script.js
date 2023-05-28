@@ -39,7 +39,10 @@ function init() {
       function (details) {
         return { cancel: iSOn };
       },
-      { urls: ['*://*.instagram.com/**/seen/', '*://*.instagram.com/**/seen'] },
+      { urls: [
+        '*://*.instagram.com/api/graphql/',
+        '*://*.instagram.com/api/graphql'
+      ] },
       ['blocking']
     );
   } else {
@@ -47,7 +50,10 @@ function init() {
       function (details) {
         return { cancel: iSOn };
       },
-      { urls: ['*://*.instagram.com/**/seen/', '*://*.instagram.com/**/seen'] },
+      { urls: [
+        '*://*.instagram.com/api/graphql/',
+        '*://*.instagram.com/api/graphql'
+      ] },
       ['blocking']
     );
   }
