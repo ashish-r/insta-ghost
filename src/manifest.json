@@ -1,18 +1,23 @@
 {
   "name": "Insta Ghost",
-  "version": "1.0",
-  "manifest_version": 2,
-  "description": "A browser extension for Instagram to read messages and see stories without read receipts or seen.",
+  "version": "2.0",
+  "manifest_version": 3,
+  "description": "A browser extension for Instagram to see stories without seen.",
   "background": {
-    "scripts": ["script.js"]
+    "service_worker": "script.js"
   },
-  "browser_action": {
-    "default_popup": "option.html"
+  "action": {
+    "default_icon": {
+      "16": "logo/logo16.png",
+      "48": "logo/logo48.png",
+      "128": "logo/logo128.png"
+    }
   },
   "permissions": [
-    "storage",
-    "webRequest",
-    "webRequestBlocking",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
+  ],
+  "host_permissions": [
     "*://*.instagram.com/*"
   ],
   "icons": {

@@ -1,7 +1,7 @@
 {
   "name": "insta-ghost",
-  "version": "1.0.0",
-  "description": "A browser extension for Instagram to read messages and see stories without read receipts or seen.",
+  "version": "2.0.0",
+  "description": "A browser extension for Instagram to see stories without seen.",
   "main": "script.js",
   "repository": {
     "type": "git",

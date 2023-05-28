@@ -1,55 +1,87 @@
-let key = 'isIGGhostModeOn';
-iSOn = true;
-
-function savePreferences() {
-  if (typeof browser === 'undefined') {
-    chrome.storage.sync.set({ [key]: !iSOn }, function () {
-      iSOn = !iSOn;
-    });
-  } else {
-    if (!browser.storage.local.set) {
-      return;
-    }
-    browser.storage.local.set({
-      [key]: !iSOn,
-    });
-    iSOn = !iSOn;
-  }
-}
+let isOn = true;
+const blockRuleId = 1;
 
 if (typeof browser === 'undefined') {
-  chrome.storage.sync.get([key], function (item) {
-    if (item[key] !== false) {
-      iSOn = false;
-    }
-  });
-} else {
-  if (browser.storage.sync.get) {
-    browser.storage.local.get().then(function (item) {
-      if (item[key] === false) {
-        iSOn = false;
+  browser = chrome;
+}
+
+function toggleBadge(isFlagFalse) {
+  if(isFlagFalse) {
+    browser.declarativeNetRequest.updateDynamicRules(
+      {
+        removeRuleIds: [blockRuleId],
+      },
+      () => {
+        isOn = false;
+        browser.action.setBadgeText(
+          {
+            text: "OFF"
+          },
+        );
+        browser.action.setBadgeTextColor(
+          {
+            color: "red"
+          },
+        );
+        browser.action.setTitle({
+          title: 'Enable Insta Ghost'
+        });
       }
-    });
-  }
+    )
+    
+    
+    return;
+  } 
+  browser.declarativeNetRequest.updateDynamicRules(
+    {
+      removeRuleIds: [blockRuleId],
+      addRules: [
+        {
+          "id": blockRuleId,
+          "priority": 1,
+          "action": { "type": "block" },
+          "condition": {
+            "urlFilter" : "instagram.com/api/graphql",
+            "initiatorDomains" : ["instagram.com"],
+            "requestDomains": ["instagram.com"]
+          }
+        }
+      ]
+    },
+    () => {
+      isOn = true;
+      browser.action.setBadgeText(
+        {
+          text: "ON"
+        },
+      );
+      browser.action.setBadgeTextColor(
+        {
+          color: "blue"
+        },
+      );
+      browser.action.setTitle({
+        title: 'Disable Insta Ghost'
+      });
+    }
+  )
 }
 
 function init() {
-  if (typeof browser === 'undefined') {
-    chrome.webRequest.onBeforeRequest.addListener(
-      function (details) {
-        return { cancel: iSOn };
-      },
-      { urls: ['*://*.instagram.com/**/seen/', '*://*.instagram.com/**/seen'] },
-      ['blocking']
-    );
-  } else {
-    browser.webRequest.onBeforeRequest.addListener(
-      function (details) {
-        return { cancel: iSOn };
-      },
-      { urls: ['*://*.instagram.com/**/seen/', '*://*.instagram.com/**/seen'] },
-      ['blocking']
-    );
-  }
+  browser.action.setBadgeBackgroundColor({
+    color: "#87CEEB"
+  });
+  browser.action.getBadgeText({}).then((currText) => {
+    toggleBadge(currText === 'OFF');
+    browser.action.onClicked.addListener((tab) => {
+      toggleBadge(isOn);
+    });
+  })
 }
+
+
+browser.runtime.onStartup.addListener( () => {
+  init();
+});
+
 init();
