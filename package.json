@@ -1,4 +1,5 @@
-{
+{user:mona
+  
   "name": "insta-ghost",
   "version": "2.0.0",
   "description": "A browser extension for Instagram to see stories without seen.",
